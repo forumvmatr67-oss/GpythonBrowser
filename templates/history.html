@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📜 История поиска</h2>
+<form method="post" action="/clear_history" style="text-align:right">
+    <button type="submit" class="btn-outline" onclick="return confirm('Очистить всю историю?')">Очистить всё</button>
+</form>
+<ul class="history-list">
+    {% for item in searches %}
+        <li class="history-item">
+            <a href="/search?q={{ item.query | urlencode }}">🔍 {{ item.query }}</a>
+            <small style="float:right">{{ item.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+        </li>
+    {% else %}
+        <li>История пуста. Начните поиск!</li>
+    {% endfor %}
+</ul>
+{% endblock %}
