@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-card">
+    <h2>📝 Регистрация в GPython</h2>
+    <form method="post">
+        <div class="form-group">
+            <label>👤 Имя пользователя</label>
+            <input type="text" name="username" placeholder="например: gpython_fan" required autofocus>
+            <small style="color: var(--text-muted);">Только буквы, цифры и подчёркивания</small>
+        </div>
+
+        <div class="form-group">
+            <label>📧 Email</label>
+            <input type="email" name="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-group">
+            <label>🔒 Пароль</label>
+            <input type="password" name="password" placeholder="минимум 4 символа" required>
+        </div>
+
+        <button type="submit" class="btn">🚀 Создать аккаунт</button>
+    </form>
+    <p style="margin-top: 1.5rem; text-align: center;">
+        Уже есть аккаунт? <a href="/login">Войти</a>
+    </p>
+</div>
+{% endblock %}
