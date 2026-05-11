@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="search-hero">
+    <div class="search-title">Ищи смело · Без слежки</div>
+    <form method="GET" action="/search" class="search-form">
+        <input type="text" name="q" id="search-input" value="{{ query or '' }}" placeholder="Что ищем?" autocomplete="off">
+        <button type="submit">🔍 Найти</button>
+    </form>
+    <div id="suggestions" class="suggestions-box"></div>
+</div>
+
+{% if results %}
+    <div class="results-grid">
+        {% for res in results %}
+            <div class="result-card">
+                <span class="result-icon">{{ res.icon }}</span>
+                <a href="{{ res.url }}" target="_blank">{{ res.title }}</a>
+                <p>{{ res.snippet }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}
