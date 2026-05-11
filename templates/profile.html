@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-card">
+    <h2>⚙️ Профиль {{ user.username }}</h2>
+    <p>📧 {{ user.email }}</p>
+    <p>📅 С нами с {{ user.created_at.strftime('%d.%m.%Y') }}</p>
+    <hr>
+    <form method="post">
+        <div class="form-group">
+            <label>Тема оформления</label>
+            <select name="theme">
+                <option value="dark" {% if user.theme == 'dark' %}selected{% endif %}>Тёмная</option>
+                <option value="light" {% if user.theme == 'light' %}selected{% endif %}>Светлая</option>
+            </select>
+        </div>
+        <button type="submit" name="action" value="change_theme" class="btn">Сохранить тему</button>
+    </form>
+    <hr>
+    <form method="post" onsubmit="return confirm('Удалить аккаунт навсегда?')">
+        <button type="submit" name="action" value="delete_account" class="btn btn-danger">🗑️ Удалить аккаунт</button>
+    </form>
+</div>
+{% endblock %}
