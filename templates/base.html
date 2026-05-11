@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPython — быстрый поиск</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body class="{{ theme }}">
+    <div class="glass-nav">
+        <div class="container nav-bar">
+            <div class="logo">🐍 GPython</div>
+            <div class="nav-links">
+                <a href="/">Поиск</a>
+                {% if username %}
+                    <a href="/history">История</a>
+                    <a href="/profile">👤 {{ username }}</a>
+                    <a href="/logout" class="btn-outline">Выйти</a>
+                {% else %}
+                    <a href="/login">Вход</a>
+                    <a href="/register" class="btn">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+    <div class="footer">
+        GPython — поиск с заботой о приватности. © 2025
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
