@@ -1,17 +1,22 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>📜 История поиска</h2>
-<form method="post" action="/clear_history" style="text-align:right">
-    <button type="submit" class="btn-outline" onclick="return confirm('Очистить всю историю?')">Очистить всё</button>
-</form>
-<ul class="history-list">
-    {% for item in searches %}
-        <li class="history-item">
-            <a href="/search?q={{ item.query | urlencode }}">🔍 {{ item.query }}</a>
-            <small style="float:right">{{ item.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
-        </li>
-    {% else %}
-        <li>История пуста. Начните поиск!</li>
-    {% endfor %}
-</ul>
-{% endblock %}
+@app.route('/history')
+@login_required
+def history():
+    searches = db.session.query(SearchHistory).filter_by(user_id=current_user.id).order_by(SearchHistory.timestamp.desc()).all()
+    return render_template('history.html', searches=searches, theme=current_user.theme)
+
+@app.route('/clear_history', methods=['POST'])
+@login_required
+def clear_history():
+    db.session.query(SearchHistory).filter_by(user_id=current_user.id).delete()
+    db.session.commit()
+    flash('🧹 История поиска очищена', 'success')
+    return redirect(url_for('history'))
+
+# В методе profile при удалении аккаунта:
+elif action == 'delete_account':
+    db.session.query(SearchHistory).filter_by(user_id=current_user.id).delete()
+    db.session.delete(current_user)
+    db.session.commit()
+    logout_user()
+    flash('🗑️ Аккаунт удалён. Нам жаль прощаться!', 'info')
+    return redirect(url_for('index'))
